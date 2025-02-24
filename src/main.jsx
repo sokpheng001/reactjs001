@@ -8,6 +8,7 @@ import Contact from "./pages/Contact.jsx";
 import RootLayout from "./components/RootLayout.jsx";
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
+import Detail from "./pages/Detail.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -18,9 +19,13 @@ createRoot(document.getElementById("root")).render(
           <Route path="/about-us" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Route>
-        <Route >
+        <Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+        </Route>
+        {/* Add more routes here */}
+        <Route path="/product-detail">
+          <Route path=":id" element={<Detail />} />
         </Route>
       </Routes>
     </StrictMode>

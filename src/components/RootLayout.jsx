@@ -7,11 +7,9 @@ export default function RootLayout() {
   return (
     <main>
       <NavbarComponent />
-
       <section>
         <Outlet />
       </section>
-      <FooterComponent/>
     </main>
   );
 }

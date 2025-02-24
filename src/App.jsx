@@ -1,11 +1,30 @@
+import { useEffect, useState } from "react";
 import "./App.css";
-import NavbarComponent from "./components/NavbarComponent";
-
+import CardComponent from "./components/CardComponent";
 
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const fet = await fetch(`${import.meta.env.VITE_API_ENDPOINT}`);
+      const json = await fet.json();
+      setData(json);
+    }
+    getData();
+  }, []);
   return (
-    <main className="items-center text-red-400 flex flex-col justify-center text-5xl ">
-      Home page
+    <main className="flex justify-center ">
+      <section className="grid grid-cols-3">
+        {data.map((e) => (
+          <CardComponent
+            key={e?.id}
+            id={e?.id}
+            title={e?.title}
+            image={e?.image}
+            description={e?.description}
+          />
+        ))}
+      </section>
     </main>
   );
 }
