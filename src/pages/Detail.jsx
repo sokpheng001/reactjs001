@@ -16,7 +16,7 @@ export default function Detail() {
   return (
     <div className="flex justify-center text-6xl">
       <section>
-        <img width={500} height={500}  src={data?.image} />
+        <img width={500} height={500} src={data?.image} />
         <br />
         <p>{data?.title}</p>
         <br />

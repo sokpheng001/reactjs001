@@ -9,26 +9,29 @@ import RootLayout from "./components/RootLayout.jsx";
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register.jsx";
 import Detail from "./pages/Detail.jsx";
+import { Provider } from "react-redux";
+import { store } from "./redux/store.js";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <StrictMode>
-      <Routes>
-        <Route element={<RootLayout />}>
-          <Route path="/" element={<App />} />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Route>
-        <Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
-        {/* Add more routes here */}
-        <Route path="/product-detail">
-          <Route path=":id" element={<Detail />} />
-        </Route>
-        //
-      </Routes>
-    </StrictMode>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <StrictMode>
+        <Routes>
+          <Route element={<RootLayout />}>
+            <Route path="/" element={<App />} />
+            <Route path="/about-us" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
+          <Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
+          {/* Add more routes here */}
+          <Route path="/product-detail">
+            <Route path=":id" element={<Detail />} />
+          </Route>
+        </Routes>
+      </StrictMode>
+    </BrowserRouter>
+  </Provider>
 );
