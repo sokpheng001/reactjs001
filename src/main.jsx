@@ -27,6 +27,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/product-detail">
           <Route path=":id" element={<Detail />} />
         </Route>
+        //
       </Routes>
     </StrictMode>
   </BrowserRouter>
