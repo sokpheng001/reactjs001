@@ -107,7 +107,7 @@ export default function NavbarComponent() {
               </ul>
             </MegaMenu.Dropdown>
           </Navbar.Link>
-          <Navbar.Link href="#">Team</Navbar.Link>
+          <Navbar.Link href="/create">Create Product</Navbar.Link>
           <Navbar.Link href="#">Contact</Navbar.Link>
         </Navbar.Collapse>
       </div>
