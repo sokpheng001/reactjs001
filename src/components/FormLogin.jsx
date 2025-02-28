@@ -1,8 +1,19 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
+import {
+  useGetLoginMutation,
+  useGetVerifiedMutation,
+} from "../redux/services/authSlice";
+import { Avatar, Button } from "flowbite-react";
+import { useNavigate } from "react-router";
 
 export default function FormLogin() {
+  const [getLogin, { isLoading, error }] = useGetLoginMutation();
+  const [getVerified, { isLoading: myLoading, error: myError }] =
+    useGetVerifiedMutation();
+  // const [dataOfUser, setUserData] = useState();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -10,12 +21,57 @@ export default function FormLogin() {
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email").required("Must put email"),
-      password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+      password: Yup.string()
+        .min(3, "Password must be at least 3 characters")
+        .required("Password is required"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const accessTokenData = await getLogin({
+          email: values?.email,
+          password: values?.password,
+        }).unwrap();
+        if (accessTokenData) {
+          window.location.reload();
+          localStorage.setItem("accessToken", accessTokenData?.access_token);
+        }
+      } catch (error) {
+        alert("Incorrect email or password");
+      }
     },
   });
+
+  // useEffect(() => {
+  //   const accessTokenFromLocalStorage = localStorage.getItem("accessToken");
+  //   async function verify() {
+  //     const userData = await getVerified(accessTokenFromLocalStorage).unwrap();
+  //     setUserData(userData);
+  //     // console.log(userData?.payload?.user_name)
+  //   }
+  //   verify();
+  // }, []);
+  // const handleLogout = () => {
+  //   localStorage.removeItem("accessToken");
+  //   window.location.reload();
+  // };
+  // if (dataOfUser) {
+  //   return (
+  //     <main className="text-5xl flex justify-center h-screen items-center flex-col">
+  //       <Avatar img={dataOfUser?.payload?.profile} rounded>
+  //         <div className="space-y-1 font-medium dark:text-white">
+  //           <div>{dataOfUser?.payload.user_name}</div>
+  //           <div className="text-sm text-gray-500 dark:text-gray-400">
+  //             {dataOfUser?.payload.email}
+  //           </div>
+  //         </div>
+  //       </Avatar>
+  //       <Button onClick={handleLogout} color="failure" className="mt-4 w-52">
+  //         Logout
+  //       </Button>
+  //     </main>
+  //   );
+  // }
+
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -86,6 +142,9 @@ export default function FormLogin() {
           </div>
           <button
             type="submit"
+            onClick={() => {
+              navigate("/");
+            }}
             className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
           >
             Sign in
